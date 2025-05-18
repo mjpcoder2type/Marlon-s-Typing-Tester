@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--Marlon J Peters mjpcoder_type@outlook.com-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marlon's Typing Tester</title>
+  <style>
+    body {
+      background-color: #000080; /* Naval Blue */
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      padding: 20px;
+    }
+    #textBlock {
+      font-size: 18pt;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    textarea {
+      width: 80%;
+      height: 150px;
+      font-size: 16pt;
+      font-family: 'Courier New', Courier, monospace;
+      margin-top: 20px;
+    }
+    button {
+      font-size: 18pt;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: white;
+      color: #000080;
+      border: none;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: grey;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Marlon's Typing Tester</h1>
+  <!--Wall of text to be typed-->
+  <div id="textBlock">
+    The quick brown fox jumped lightly acrosS the MooN!  And when it finished it decided it would rather fly to the Moon...not just any Moon but the Moons of Jupiter!  In particular the moon known as Io!  And as a result he went to NASA and procured a spaceship that would get him there in no time flat!  Before you could snap your fingers and even a few nearby handy twigs he was on that moon and having a fiery blast!  He soon tired of the landscape(but not the beautiful orange hue of the atmosphere!) and made his way home!  He was hailed as a herO and given a number of medals which he kept nearby in his 3 story Victorian Home.  Now what do you think about that?
+  </div>
+  <textarea id="userInput" placeholder="Start typing here..."></textarea><br />
+  <button id="startButton" onclick="startTest()">Begin</button>
+
+  <script>
+    const textToType = document.getElementById("textBlock").innerText;
+    const textarea = document.getElementById("userInput");
+    const button = document.getElementById("startButton");
+    let timer;
+    let timeLeft = 60;
+
+    function calculateWPM() {
+      const typedText = textarea.value.trim();
+      const words = typedText.split(/\s+/).length;
+      const elapsedTime = 60 - timeLeft;
+      const minutes = elapsedTime / 60;
+      const wpm = Math.round(words / minutes);
+      alert(`Typing Speed: ${wpm}wpm`);
+    }
+
+    function tick() {
+      timeLeft--;
+      button.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        textarea.disabled = true;
+        calculateWPM();
+        button.disabled = false;
+        button.textContent = "Begin";
+      } else if (textarea.value.trim() === textToType.trim()) {
+        clearInterval(timer);
+        textarea.disabled = true;
+        calculateWPM();
+        button.disabled = false;
+        button.textContent = "Begin";
+      }
+    }
+
+    function startTest() {
+      textarea.value = "";
+      textarea.disabled = false;
+      textarea.focus();
+      timeLeft = 60;
+      button.disabled = true;
+      button.textContent = timeLeft;
+      timer = setInterval(tick, 1000);
+    }
+  </script>
+</body>
+</html>
